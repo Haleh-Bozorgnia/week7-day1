@@ -11,6 +11,13 @@ app.get("/greeting/:name", (req, res) => {
   res.send(`<h1>Wow! Hello there,  ${name}<h1>`);
 });
 
+app.get("/tip/:total/:tipPercentage", (req, res) => {
+  const total = req.params.total;
+  const tipPercentage = req.params.tipPercentage;
+  const tips = (total * tipPercentage) / 100;
+  res.send(`<h1>total ${tips}</h1>`);
+});
+
 app.listen(3000, () => {
   console.log("listening");
 });
