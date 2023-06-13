@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+
 //Greetings
 
 app.get("/greeting", (req, res) => {
@@ -18,7 +19,9 @@ app.get("/tip/:total/:tipPercentage", (req, res) => {
   res.send(`<h1>total ${tips}</h1>`);
 });
 
-app.get("/magic/:phrase",(req,res)=>{
+// Magic 8 Ball
+
+app.get("/magic/:phrase", (req, res) => {
   const phrase = req.params.phrase;
   const magic = [
     "It is certain",
@@ -46,12 +49,52 @@ app.get("/magic/:phrase",(req,res)=>{
   magicLength = magic.length;
   console.log(magicLength);
   const randomIndex = Math.floor(Math.random() * magicLength);
-  console.log(randomIndex);
-  console.log(magic[randomIndex]);
-  // const randomMagic = magic[randomIndex]
-  // console.log(randomIndex)
-  res.send(`<h1>${phrase}? ${magic[randomIndex]} </h1>`)
-})
+  res.send(`<h1>${phrase}? ${magic[randomIndex]} </h1>`);
+});
+
+// Take one Down and Pass it Around
+
+// app.get("/", (req, res) => {
+//   res.send(`
+//     <h1>99 Bottles of beer on the walls</h1>
+//     <a href="/98">take one down, pass it around</a>`);
+// });
+
+app.get("/:number_of_bottles", (req, res) => {
+  const number_of_bottles = parseInt(req.params.number_of_bottles);
+
+  let text = `
+    <h1>${number_of_bottles} Bottles of beer on the wall</h1>
+  `;
+
+  if (number_of_bottles > 0) {
+    const newLink = number_of_bottles - 1;
+    text += `
+      <a href="/${newLink}">take one down, pass it around</a>
+    `;
+  } else {
+    text += `
+    <a href="/"> Start Over</a>
+  `;
+  }
+  res.send(text);
+});
+
+//Bonus
+app.get("/", (ref, res) => {
+  let bugs = 99;
+  const randomNum = Math.floor(Math.random() * (500 - bugs + 1)) + bugs;
+  let bugsText = `
+  <h1>${bugs} little bugs in the code</h1>
+  <h1>${bugs} little bugs</h1>
+  <h1>Take on down</h1>
+  <h1>${bugs - 1} little bugs in the code</h1>
+  <h1>${bugs - 1} little bugs</h1>
+  <h1>Patch it around</h1>
+    <h1>${randomNum} little bugs in the code</h1>
+  `;
+  res.send(bugsText);
+});
 
 app.listen(3000, () => {
   console.log("listening");
